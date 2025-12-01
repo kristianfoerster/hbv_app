@@ -1,0 +1,20 @@
+Data from CAMELD-DE: https://doi.org/10.5194/essd-16-5625-2024
+provider_id               420020
+gauge_name             Meiningen
+water_body_name            Werra
+federal_state          Thüringen
+gauge_lat              50.574243
+gauge_lon              10.415312
+gauge_easting          4350421.0
+gauge_northing         3051464.0
+gauge_elev_metadata       281.65
+area_metadata             1170.0
+gauge_elev                288.29
+area                     1166.07
+elev_mean                 510.01
+elev_min                  279.12
+elev_5                    353.17
+elev_50                   473.04
+elev_95                   774.17
+elev_max                  988.19
+Name: DEG10370, dtype: object
