@@ -9,8 +9,7 @@ Created on Mon Sep  1 16:44:20 2025
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
-from hbv import simulation as HBV
-from hbv import bounds
+from hbv import simulation, bounds
 import pandas as pd
 from model_performance import model_performance
 
@@ -50,7 +49,7 @@ for name, (low, high) in zip(param_names, bnds):
 
 
 # Run HBV model
-sim = HBV(forcing, params)
+sim = simulation(forcing, params)
 
 #indexes
 i1=0
