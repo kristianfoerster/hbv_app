@@ -12,6 +12,14 @@ import matplotlib.pyplot as plt
 from hbv import simulation, bounds
 import pandas as pd
 from model_performance import model_performance
+from io import BytesIO
+
+# --- create Excel file in memory ---
+def to_excel(df):
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        df.to_excel(writer, index=True, sheet_name='data')
+    return output.getvalue()
 
 # read sample data
 data = pd.read_csv('data/data.csv', index_col=0, parse_dates=[0])
@@ -112,6 +120,8 @@ ax_runoff.legend()
 plt.tight_layout()
 st.pyplot(fig)
 
+df = pd.DataFrame(index=forcing.index[i1:i2],data={'obs': obs[i1:i2], 'sim': sim[i1:i2]})
+
 NSE, KGE, PBIAS, RMSE, RSR, r = model_performance(obs[i1:i2], sim[i1:i2])
 
 st.code(
@@ -127,3 +137,14 @@ st.code(
         )
 
 st.code(info)
+
+
+filename = st.text_input("Choose file name", "results.xlsx", key="filename_input")
+excel_data = to_excel(df)
+st.download_button(
+    label="Download Excel Workbook",
+    data=excel_data,
+    file_name = filename,
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+)
+
