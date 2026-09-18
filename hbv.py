@@ -117,7 +117,7 @@ def simulation(data, params=[ 1.0,   0.15,     250,   0.055,\
     #                      for x in range(1, 367)])
     Temp_mean = data['Temp'].groupby(data.index.dayofyear).mean().values
     # b. correction of Evaporation daily values
-    Evap = Evap.index.map(lambda x: (1+parCET*(Temp[x] - Temp_mean[x.dayofyear - 1]))*Evap[x])
+    Evap = Evap.index.map(lambda x: (1+parCET*(Temp.loc[x] - Temp_mean[x.dayofyear - 1]))*Evap.loc[x])
     # c. control Evaporation
     Evap = np.where(Evap > 0, Evap, 0)
 
@@ -130,7 +130,7 @@ def simulation(data, params=[ 1.0,   0.15,     250,   0.055,\
         SNOWPACK[t] = SNOWPACK[t-1] + SNOW[t]
         # how snowpack melts
         # day-degree simple melting
-        melt = parCFMAX * (Temp[t] - parTT)
+        melt = parCFMAX * (Temp.iloc[t] - parTT)
         # control melting
         if melt<0: melt = 0
         melt = min(melt, SNOWPACK[t])
@@ -139,7 +139,7 @@ def simulation(data, params=[ 1.0,   0.15,     250,   0.055,\
         # snowpack after melting
         SNOWPACK[t] = SNOWPACK[t] - melt
         # refreezing accounting
-        refreezing = parCFR * parCFMAX * (parTT - Temp[t])
+        refreezing = parCFR * parCFMAX * (parTT - Temp.iloc[t])
         # control refreezing
         if refreezing < 0: refreezing = 0
         refreezing = min(refreezing, MELTWATER[t])
